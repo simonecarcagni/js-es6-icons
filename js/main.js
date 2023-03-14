@@ -122,14 +122,13 @@ iconsArray.forEach(element => {
     element.color = generateRandomColor();
 });
 
-selettoreDom,addEventListener('change', function(){
+selettoreDom.addEventListener('change', function(){
 
-    
     const selected = this.value;
 
-    if (selected == "all"){
+    if (selected == ""){
         createBox(iconsArray, containerDom);
-    } else {
+    }   else {
         const filtered = iconsArray.filter(element => {
             if (selected == element.type){
                 return true;
@@ -139,12 +138,8 @@ selettoreDom,addEventListener('change', function(){
         });
        createBox(filtered, containerDom);
     }
+
 });
-
-
-
-
-
 
 function createBox(icons, container){
 
@@ -166,17 +161,22 @@ function createBox(icons, container){
 
 
 function generateRandomColor(){
+
     let randomColor = "#";
 
     const listValue = "0123456789ABCDEF";
-
-    for (let i=0; i<6; i++){
+    
+    for (let i = 0; i < 6 ; i++){
+        
         const randomNumber = generateRandomNumber(0, listValue.length - 1);
         randomColor += listValue[randomNumber];
+        
     }
+
     return randomColor;
 }
 
 function generateRandomNumber(min, max){
-    return Math.floor(Math.random() + (max - min + 1) + min);
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
