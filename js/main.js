@@ -116,36 +116,67 @@ const iconsArray = [
 ];
 
 const containerDom = document.getElementById('container');
+const selettoreDom = document.getElementById('selettore');
 
-iconsArray.forEach((elemento) => {
+iconsArray.forEach(element => {
+    element.color = generateRandomColor();
+});
 
-    if(elemento.color == 'orange'){
-        containerDom.innerHTML +=      `<div class="box">
-                                        <div class="txt-align">
-                                        <i style="color: orange" class="fa-solid ${elemento.prefix}${elemento.name}"></i>
-                                        <h5>${elemento.name}</h5>
-                                        </div>
-                                        </div>`
-    } else if (elemento.color == 'green') {
-        containerDom.innerHTML +=      `<div class="box">
-                                        <div class="txt-align">
-                                        <i style="color: green" class="fa-solid ${elemento.prefix}${elemento.name}"></i>
-                                        <h5>${elemento.name}</h5>
-                                        </div>
-                                        </div>`
-    } else if (elemento.color == 'blue') {
-        containerDom.innerHTML +=      `<div class="box">
-                                        <div class="txt-align">
-                                        <i style="color: blue" class="fa-solid ${elemento.prefix}${elemento.name}"></i>
-                                        <h5>${elemento.name}</h5>
-                                        </div>
-                                        </div>`
+selettoreDom,addEventListener('change', function(){
+
+    
+    const selected = this.value;
+
+    if (selected == "all"){
+        createBox(iconsArray, containerDom);
+    } else {
+        const filtered = iconsArray.filter(element => {
+            if (selected == element.type){
+                return true;
+            } else {
+                return false;
+            }
+        });
+       createBox(filtered, containerDom);
     }
 });
 
-const selettoreDom = document.getElementById('selettore');
 
-selettoreDom,addEventListener('change', function(){
-    
-})
 
+
+
+
+function createBox(icons, container){
+
+    container.innerHTML = '';
+
+    icons.forEach(elemento => {
+
+        container.innerHTML += `<div class="box">
+                                        <div class="txt-align">
+                                        <i style="color: ${elemento.color}" class="fa-solid ${elemento.prefix}${elemento.name}"></i>
+                                        <h5>${elemento.name}</h5>
+                                        </div>
+                                        </div>`;
+
+    });
+
+}
+
+
+
+function generateRandomColor(){
+    let randomColor = "#";
+
+    const listValue = "0123456789ABCDEF";
+
+    for (let i=0; i<6; i++){
+        const randomNumber = generateRandomNumber(0, listValue.length - 1);
+        randomColor += listValue[randomNumber];
+    }
+    return randomColor;
+}
+
+function generateRandomNumber(min, max){
+    return Math.floor(Math.random() + (max - min + 1) + min);
+}
